@@ -4,7 +4,7 @@ on:
     branches:
       - main
 
-jobs
+jobs:
   delivery:
     runs-on: ubuntu-latest
     steps:
@@ -13,7 +13,7 @@ jobs
 
       - name: Simulando Cotinous Delivery
         uses: actions/upload-artifact@v4
-        witH:
+        with:
           name: projetozipado
           path: |
             **.py
