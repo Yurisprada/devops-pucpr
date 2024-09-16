@@ -146,7 +146,7 @@ def removerVencedor():
     quantR.pop(vencedor)
     cerebro.pop(vencedor)
 
-#Menus#
+#Menu#
 
 def menu():
     print('1.Iniciar Jogo')
