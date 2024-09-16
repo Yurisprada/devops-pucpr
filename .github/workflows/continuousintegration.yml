@@ -15,13 +15,14 @@ jobs:
         uses: advanced-security/python-lint-code-scanning-action@v1.1.1
         with:
           linter: pylint
-
-jobs:
   discord:
+    enviroment: secrets
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: Run Discord Webhook
-        uses: johnnyhuy/actions-discord-git-webhook@main 
+      - name: Check out repository code
+        uses: actions/checkout@v4
+        
+      - name: Discord Notification
+        uses: tenzin1308/discord-notification@v1.0.0
         with:
-          webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
+          discord-webhook-url: ${{ secrets.DISCORD_WEBHOOK }}
