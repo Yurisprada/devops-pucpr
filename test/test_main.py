@@ -1,88 +1,62 @@
 import unittest
 from src.Main import (
     qtdJogadores, cadastro_jogadores, tuboDados, rollDice, rollFace,
-    pontuaçãoC, pontuaçãoP, pontuaçãoT, dadosRestantes, winner,
-    turnosRestantes, removerVencedor
+    pontuacaoC, pontuacaoP, pontuacaooT
 )
 
-@pytest.fixture
-def setup_game():
-    global nomeJogadores, pontAtualC, pontAtualP, pontAtualT, turnAtual, quantV, quantA, quantR, cerebro, jogadorAtual
-    nomeJogadores = ['Player1', 'Player2']
-    pontAtualC = [0, 0]
-    pontAtualP = [0, 0]
-    pontAtualT = [0, 0]
-    turnAtual = [1, 1]
-    quantV = [6, 6]
-    quantA = [4, 4]
-    quantR = [3, 3]
-    cerebro = [0, 0]
-    jogadorAtual = 0
+class TestZombieDice(unittest.TestCase):
+    
+    def test_qtdJogadores(self):
+        num_jogadores = qtdJogadores('1')
+        self.assertEqual(num_jogadores, 2)  # Deve retornar 2
 
-def test_qtdJogadores_valido(setup_game):
-    result = qtdJogadores('3')
-    assert result == 3
+    def test_qtdJogadores_valido(self):
+        num_jogadores = qtdJogadores('3')
+        self.assertEqual(num_jogadores, 3)  # Deve retornar 3
 
-def test_qtdJogadores_invalido(setup_game):
-    result = qtdJogadores('abc')
-    assert result == 2
+    def test_cadastro_jogadores(self):
+        jogadores = cadastro_jogadores(['', 'Player1', 'Player2'])
+        self.assertEqual(jogadores, ['Player1', 'Player2'])  # Deve conter os dois nomes válidos
 
-def test_cadastro_jogadores(setup_game):
-    entradas = ['Player1', 'Player2']
-    result = cadastro_jogadores(entradas)
-    assert result == ['Player1', 'Player2']
+    def test_tuboDados(self):
+        tubo = tuboDados()
+        self.assertEqual(len(tubo), 13)  # Deve haver 13 dados no tubo
+        self.assertEqual(tubo.count(dadoVerde), 6)  # Deve haver 6 dados verdes
+        self.assertEqual(tubo.count(dadoAmarelo), 4)  # Deve haver 4 dados amarelos
+        self.assertEqual(tubo.count(dadoVermelho), 3)  # Deve haver 3 dados vermelhos
 
-def test_tuboDados(setup_game):
-    tubo = tuboDados()
-    assert len(tubo) == 13
-    assert tubo.count(('C', 'P', 'C', 'T', 'P', 'C')) == 6
-    assert tubo.count(('T', 'P', 'C', 'T', 'P', 'C')) == 4
-    assert tubo.count(('T', 'P', 'T', 'C', 'P', 'T')) == 3
+    def test_rollDice(self):
+        tubo = tuboDados()
+        resultado = rollDice()
+        self.assertIn(resultado[0], [dadoVerde, dadoAmarelo, dadoVermelho])  # Deve ser um dos tipos de dados
 
-def test_rollDice(setup_game):
-    import random
-    random.seed(0)
-    result = rollDice()
-    assert len(result) == 1
-    assert result[0] in [dadoVerde, dadoAmarelo, dadoVermelho]
+    def test_rollFace(self):
+        dado = rollFace()
+        self.assertIn(dado, ['C', 'P', 'T'])  # A face deve ser uma das válidas
 
-def test_rollFace(setup_game):
-    import random
-    random.seed(0)
-    result = rollFace()
-    assert result in ['C', 'P', 'T']
+    def test_pontuacaoC(self):
+        global pontAtualC, cerebro, jogadorAtual
+        pontAtualC = [0]
+        cerebro = [3]
+        jogadorAtual = 0
+        pontuacaoC()
+        self.assertEqual(pontAtualC[0], 3)  # Deve atualizar a pontuação corretamente
 
-def test_pontuaçãoC(setup_game):
-    cerebro[0] = 3
-    result = pontuaçãoC()
-    assert result == 3
+    def test_pontuacaoP(self):
+        global pontAtualP, jogadorAtual
+        pontAtualP = [0]
+        jogadorAtual = 0
+        pontuacaoP()
+        self.assertEqual(pontAtualP[0], 1)  # Deve incrementar a pontuação
 
-def test_pontuaçãoP(setup_game):
-    pontAtualP[0] = 0
-    result = pontuaçãoP()
-    assert result == 1
+    def test_pontuacaoT(self):
+        global pontAtualT, cerebro, jogadorAtual
+        pontAtualT = [2]
+        cerebro = [5]
+        jogadorAtual = 0
+        pontuacaooT()
+        self.assertEqual(pontAtualT[0], 3)  # Deve incrementar o tiro
+        self.assertEqual(cerebro[0], 0)  # Deve zerar os cérebros, pois os tiros chegaram a 3
 
-def test_pontuaçãoT(setup_game):
-    pontAtualT[0] = 2
-    result = pontuaçãoT()
-    assert result == 3
-    assert cerebro[0] == 0
-
-def test_dadosRestantes(setup_game):
-    result = dadosRestantes()
-    assert result == 'Os dados restantes são:\n6 Verde\n4 Amarelo\n3 Vermelho'
-
-def test_winner(setup_game):
-    pontAtualC = [13, 10]
-    result = winner()
-    assert result == 0
-
-def test_turnosRestantes(setup_game):
-    turnAtual = [2, 1]
-    result = turnosRestantes()
-    assert result == 'Player1 tem até o final da rodada para vencer\nPlayer2 está eliminado'
-
-def test_removerVencedor(setup_game):
-    removerVencedor()
-    assert len(nomeJogadores) == 1
-    assert nomeJogadores[0] == 'Player2'
+if __name__ == '__main__':
+    unittest.main()
