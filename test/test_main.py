@@ -1,5 +1,5 @@
 import unittest
-from Main import (
+from src.Main import (
     qtdJogadores, cadastro_jogadores, tuboDados, rollDice, rollFace,
     pontuacaoC, pontuacaoP, pontuacaooT
 )
