@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import patch
 
-from Main import (
+from src.Main import (
     qtdJogadores, cadastro_jogadores, tuboDados, rollDice, rollFace,
     pontuacaoC, pontuacaoP, pontuacaooT, scoreAtual, scoreCheck,
     dadosRestantes, winner, removerVencedor
