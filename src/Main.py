@@ -3,32 +3,27 @@ import time
 
 #Cadastro de jogadores#
 
-def qtdJogadores():
-    numJog = 0
-    while numJog<2:
-        try:
-            numJog = int(input('Qual a quantidade de jogadores: '))
-            if numJog <2:
-                print('Mínimo 2 Jogadores')
-            else:
-                print('Bom jogo')
-        except:
-            print('Valor invalido')
-    return numJog
+def qtdJogadores(entrada = None):
+    if entrada is None:
+        entrada = input('Digite o número de jogadores: ')
+    try:
+        num_jogadores = int(entrada)
+        if num_jogadores < 2:
+            print("Número de jogadores deve ser pelo menos 2.")
+            return qtdJogadores()
+        return num_jogadores
+    except ValueError:
+        print("Entrada inválida. Digite um número.")
+        return qtdJogadores()
 
-def cadastro_jogadores():
-    nomeJog =[]
-    numJog = qtdJogadores()
-    i = 1
-    while i <= numJog:
-        jogador = input('Digite o nome do jogador %s: '%i)
-        if jogador == '':
-            print('Valor invalido')
-        else:
-            i = i + 1
-            print('Jogador registrado com sucesso')
-            nomeJog.append(jogador)
-    return nomeJog
+def cadastro_jogadores(entradas=None):
+    if entradas is None:
+        entradas = [input('Digite o nome do jogador: ') for _ in range(qtdJogadores())]
+    jogadores = []
+    for entrada in entradas:
+        if entrada:
+            jogadores.append(entrada)
+    return jogadores
 
 #Dados#
 
