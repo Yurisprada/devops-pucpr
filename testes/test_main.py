@@ -3,7 +3,7 @@ from unittest.mock import patch
 
 from Main import (
     qtdJogadores, cadastro_jogadores, tuboDados, rollDice, rollFace,
-    pontuaçãoC, pontuaçãoP, pontuaçãoT, scoreAtual, scoreCheck,
+    pontuacaoC, pontuacaoP, pontuacaooT, scoreAtual, scoreCheck,
     dadosRestantes, winner, removerVencedor
 )
 
@@ -47,14 +47,14 @@ def test_pontuacaoC(self):
     pontAtualC = [0]
     cerebro = [3]
     jogadorAtual = 0
-    pontuaçãoC()
+    pontuacaoC()
     self.assertEqual(pontAtualC[0], 3)  # Deve atualizar a pontuação corretamente
 
 def test_pontuacaoP(self):
     global pontAtualP, jogadorAtual
     pontAtualP = [0]
     jogadorAtual = 0
-    pontuaçãoP()
+    pontuacaoP()
     self.assertEqual(pontAtualP[0], 1)  # Deve incrementar a pontuação
 
 def test_pontuacaoT(self):
@@ -62,7 +62,7 @@ def test_pontuacaoT(self):
     pontAtualT = [2]
     cerebro = [5]
     jogadorAtual = 0
-    pontuaçãoT()
+    pontuacaooT()
     self.assertEqual(pontAtualT[0], 3)  # Deve incrementar o tiro
     self.assertEqual(cerebro[0], 0)  # Deve zerar os cérebros, pois os tiros chegaram a 3
 
