@@ -14,3 +14,7 @@ class TestZombieDice(unittest.TestCase):
     def test_menu_start_game(self, mock_input):
         result = menu()
         self.assertEqual(result, '1')  # Ajuste a comparação conforme o esperado em `menu()`
+
+
+if __name__ == '__main__':
+    unittest.main()
