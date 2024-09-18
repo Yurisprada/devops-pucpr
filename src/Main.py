@@ -1,5 +1,6 @@
 import random
 import time
+from unittest.main import main
 
 #Cadastro de jogadores#
 
@@ -286,3 +287,6 @@ while comecar == 's':
     if op1 == '0':
         print('Obrigado por jogar')
         break
+
+if __name__ == "__main__":
+    main()
