@@ -71,15 +71,15 @@ def rollFace():
 
 #Somatizar pontuação#
 
-def pontuaçãoC():
+def pontuacaoC():
     pontAtualC[jogadorAtual] = pontAtualC[jogadorAtual] + cerebro[jogadorAtual]
     return pontAtualC[jogadorAtual]
 
-def pontuaçãoP():
+def pontuacaoP():
     pontAtualP[jogadorAtual] = pontAtualP[jogadorAtual] + 1
     return pontAtualP[jogadorAtual]
 
-def pontuaçãoT():
+def pontuacaoT():
     pontAtualT[jogadorAtual] = pontAtualT[jogadorAtual] + 1
     if pontAtualT[jogadorAtual] >= 3:
         cerebro = 0
@@ -193,10 +193,10 @@ while comecar == 's':
                         cerebro[jogadorAtual] += 1
                     elif  face == 'P':
                         print('Com a face: ',face)
-                        pontuaçãoP()
+                        pontuacaoP()
                     else:
                         print('Com a face: ',face)
-                        pontuaçãoT()
+                        pontuacaoT()
                         tiro = pontAtualT[jogadorAtual]
                         if tiro >= 3:
                             print('Você perdeu o turno e os cérebros dessa rodada')
@@ -211,7 +211,7 @@ while comecar == 's':
                             break
                 scoreAtual()
             if (cerebro[jogadorAtual] + pontAtualC[jogadorAtual]) >= 13 or pontAtualC[jogadorAtual] >= 13:
-                pontuaçãoC()
+                pontuacaoC()
                 vencedor = winner()
                 print('---------------------------------------------\n'
                       'O vencedor é: ', nomeJogadores[vencedor], 'em ',turnAtual[vencedor],'rodadas\n-------------------'
@@ -246,7 +246,7 @@ while comecar == 's':
             if op2 == '3':
                 dadosRestantes()
             if op2 == '4':
-                pontuaçãoC()
+                pontuacaoC()
                 cerebro[jogadorAtual] = 0
                 pontAtualT[jogadorAtual] = 0
                 pontAtualP[jogadorAtual] = 0
@@ -257,7 +257,7 @@ while comecar == 's':
             elif len(tubo) <= 3:
                 tubo = list.copy(tubo2)
             if op2 == '5':
-                pontuaçãoC()
+                pontuacaoC()
                 vencedor = winner()
                 print('---------------------------------------------\n'
                       'O vencedor é: ', nomeJogadores[vencedor], 'com :',cerebro[vencedor],'cerébros, em', turnAtual[vencedor],

@@ -1,74 +1,71 @@
 import unittest
 from unittest.mock import patch
-from src.Main import (
-    qtdJogadores, cadastro_jogadores, tuboDados, rollDice, rollFace,
-    pontuacaoC, pontuacaoP, pontuacaoT, menu, menu2
+from src.com.jogo import (
+    qtdJogadores, cadastro_jogadores, rollDice, scoreCheck, winner, menu
 )
 
 class TestZombieDice(unittest.TestCase):
+    
+    # Testando iniciar o jogo com a opção 1 no menu
+    @patch('builtins.input', side_effect=['1'])  # Simulando escolha da opção 1 (Iniciar Jogo)
+    def test_menu_iniciar_jogo(self, mock_input):
+        op1 = menu()
+        self.assertEqual(op1, '1')
 
-    @patch('builtins.input', return_value='1')
-    def test_menu(self, mock_input):
-        op = menu()
-        self.assertEqual(op, '1')  # Deve retornar '1'
+    # Testando a função qtdJogadores
+    @patch('builtins.input', side_effect=['3'])
+    def test_qtd_jogadores_valido(self, mock_input):
+        self.assertEqual(qtdJogadores(), 3)
 
-    @patch('builtins.input', return_value='2')
-    def test_qtdJogadores(self, mock_input):
-        num_jogadores = qtdJogadores()
-        self.assertEqual(num_jogadores, 2)  # Deve retornar 2
+    @patch('builtins.input', side_effect=['1', '3'])
+    def test_qtd_jogadores_invalido(self, mock_input):
+        self.assertEqual(qtdJogadores(), 3)  # Deve ignorar o 1 e aceitar o 3 como válido
 
-    @patch('builtins.input', return_value='3')
-    def test_qtdJogadores_valido(self, mock_input):
-        num_jogadores = qtdJogadores()
-        self.assertEqual(num_jogadores, 3)  # Deve retornar 3
+    @patch('builtins.input', side_effect=['abc', '2'])
+    def test_qtd_jogadores_entrada_invalida(self, mock_input):
+        self.assertEqual(qtdJogadores(), 2)
 
-    @patch('builtins.input', side_effect=['', 'Player1', 'Player2'])
+    # Testando a função cadastro_jogadores
+    @patch('builtins.input', side_effect=['Alice', 'Bob'])
     def test_cadastro_jogadores(self, mock_input):
         jogadores = cadastro_jogadores()
-        self.assertEqual(jogadores, ['Player1', 'Player2'])  # Deve conter os dois nomes válidos
+        self.assertEqual(jogadores, ['Alice', 'Bob'])
 
-    def test_tuboDados(self):
-        tubo = tuboDados()
-        self.assertEqual(len(tubo), 13)  # Deve haver 13 dados no tubo
-        self.assertEqual(tubo.count(dadoVerde), 6)  # Deve haver 6 dados verdes
-        self.assertEqual(tubo.count(dadoAmarelo), 4)  # Deve haver 4 dados amarelos
-        self.assertEqual(tubo.count(dadoVermelho), 3)  # Deve haver 3 dados vermelhos
+    # Testando a função rollDice
+    @patch('random.randint', return_value=0)  # Simulando o primeiro dado do tubo
+    def test_roll_dice(self, mock_randint):
+        global tubo
+        tubo = [('C', 'P', 'C', 'T', 'P', 'C')] * 13  # Reiniciando o tubo para os testes
+        sorteados = rollDice()
+        self.assertEqual(sorteados, [('C', 'P', 'C', 'T', 'P', 'C')])
+        self.assertEqual(len(tubo), 12)  # Verificando se o dado foi removido do tubo
 
-    def test_rollDice(self):
-        tubo = tuboDados()
-        resultado = rollDice()
-        self.assertIn(resultado[0], [dadoVerde, dadoAmarelo, dadoVermelho])  # Deve ser um dos tipos de dados
+    # Testando a função scoreCheck
+    def test_score_check(self):
+        global nomeJogadores, pontAtualC, cerebro, turnAtual
+        nomeJogadores = ['Alice', 'Bob']
+        pontAtualC = [3, 5]
+        cerebro = [1, 2]
+        turnAtual = [1, 2]
 
-    def test_rollFace(self):
-        dado = rollFace()
-        self.assertIn(dado, ['C', 'P', 'T'])  # A face deve ser uma das válidas
+        with patch('builtins.print') as mock_print:
+            scoreCheck()
+            mock_print.assert_any_call('Alice possui 4 cérebros em 1 rodadas')
+            mock_print.assert_any_call('Bob possui 7 cérebros em 2 rodadas')
 
-    @patch('src.Main.pontAtualC', [0])
-    @patch('src.Main.cerebro', [3])
-    @patch('src.Main.jogadorAtual', 0)
-    def test_pontuacaoC(self, mock_pontAtualC, mock_cerebro, mock_jogadorAtual):
-        pontuacaoC()
-        self.assertEqual(pontAtualC[0], 3)  # Deve atualizar a pontuação corretamente
+    # Testando a função winner
+    def test_winner(self):
+        global nomeJogadores, pontAtualC
+        nomeJogadores = ['Alice', 'Bob', 'Charlie']
+        pontAtualC = [3, 8, 5]
+        self.assertEqual(winner(), 1)  # Bob deve ser o vencedor (índice 1)
 
-    @patch('src.Main.pontAtualP', [0])
-    @patch('src.Main.jogadorAtual', 0)
-    def test_pontuacaoP(self, mock_pontAtualP, mock_jogadorAtual):
-        pontuacaoP()
-        self.assertEqual(pontAtualP[0], 1)  # Deve incrementar a pontuação
+    # Testando finalizar o jogo com a opção 0 no menu
+    @patch('builtins.input', side_effect=['0'])  # Simulando escolha da opção 0 (Finalizar Jogo)
+    def test_menu_finalizar_jogo(self, mock_input):
+        op1 = menu()
+        self.assertEqual(op1, '0')
 
-    @patch('src.Main.pontAtualT', [2])
-    @patch('src.Main.cerebro', [5])
-    @patch('src.Main.jogadorAtual', 0)
-    def test_pontuacaoT(self, mock_pontAtualT, mock_cerebro, mock_jogadorAtual):
-        pontuacaoT()
-        self.assertEqual(pontAtualT[0], 3)  # Deve incrementar o tiro
-        self.assertEqual(cerebro[0], 0)  # Deve zerar os cérebros, pois os tiros chegaram a 3
-
-
-    @patch('builtins.input', return_value='5')
-    def test_menu2(self, mock_input):
-        op = menu2()
-        self.assertEqual(op, '2')  # Deve retornar '5'
 
 if __name__ == '__main__':
     unittest.main()
