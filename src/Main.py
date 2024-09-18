@@ -162,9 +162,6 @@ def menu2(input_func=input, op2 = None):
     return op2
 
 #Zombie Dice#
-def obter_numero():
-    numero = int(input("Digite um número: "))
-    return numero
 
 comecar = 's'
 while comecar == 's':
