@@ -3,7 +3,7 @@ import time
 
 #Cadastro de jogadores#
 
-def qtdJogadores(entrada = None):
+def qtdJogadores(input_func=input,entrada = None):
     if entrada is None:
         entrada = input('Digite o número de jogadores: ')
     try:
@@ -16,7 +16,7 @@ def qtdJogadores(entrada = None):
         print("Entrada inválida. Digite um número.")
         return qtdJogadores()
 
-def cadastro_jogadores(entradas=None):
+def cadastro_jogadores(input_func=input,entradas=None):
     if entradas is None:
         entradas = [input('Digite o nome do jogador: ') for _ in range(qtdJogadores())]
     jogadores = []
@@ -143,15 +143,15 @@ def removerVencedor():
 
 #Menu#
 
-def menu(input_func=input):
-    print('Bem vindo a Zombie Dice')
-    print('1. Iniciar Jogo')
-    print('2. Regras')
-    print('0. Sair')
-    op1 = input_func('Selecione a opção desejada: ')
+def menu(input_func=input, op1 = None):
+    if op1 is None:
+        print('1.Iniciar Jogo')
+        print('2.Regras')
+        print('0.Sair')
+        op1 = input('Selecione a opção desejada: ')
     return op1
 
-def menu2(op2 = None):
+def menu2(input_func=input, op2 = None):
     if op2 is None:
         print('1.Rolar dados')
         print('2.Checar pontuação')
