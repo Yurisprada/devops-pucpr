@@ -1,8 +1,6 @@
 import unittest
 from unittest.mock import patch
-from src.com.jogo import (
-    qtdJogadores, cadastro_jogadores, rollDice, scoreCheck, winner, menu
-)
+from src import *
 
 class TestZombieDice(unittest.TestCase):
     
