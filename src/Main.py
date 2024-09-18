@@ -143,12 +143,12 @@ def removerVencedor():
 
 #Menu#
 
-def menu(op1 = None):
-    if op1 is None:
-        print('1.Iniciar Jogo')
-        print('2.Regras')
-        print('0.Sair')
-        op1 = input('Selecione a opção desejada: ')
+def menu(input_func=input):
+    print('Bem vindo a Zombie Dice')
+    print('1. Iniciar Jogo')
+    print('2. Regras')
+    print('0. Sair')
+    op1 = input_func('Selecione a opção desejada: ')
     return op1
 
 def menu2(op2 = None):
