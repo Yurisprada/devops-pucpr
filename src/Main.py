@@ -289,4 +289,4 @@ while comecar == 's':
         break
 
 if __name__ == "__main__":
-    main()
+    op1 = menu()
