@@ -1,21 +1,32 @@
-def sum_numbers(numbers):
-    """
-    Função para calcular a soma de uma lista de números.
-    
-    :param numbers: Lista de números (inteiros ou floats)
-    :return: A soma dos números
-    """
-    if not numbers:
+def soma_numeros(numeros):
+    if not numeros:
         return 0
-    return sum(numbers)
+    return sum(numeros)
 
-def average_numbers(numbers):
-    """
-    Função para calcular a média de uma lista de números.
-    
-    :param numbers: Lista de números (inteiros ou floats)
-    :return: A média dos números
-    """
-    if not numbers:
+def media_numeros(numeros):
+    if not numeros:
         return 0
-    return sum(numbers) / len(numbers)
+    return sum(numeros) / len(numeros)
+
+def produto_numeros(numeros):
+    if not numeros:
+        return 1
+    produto = 1
+    for num in numeros:
+        produto *= num
+    return produto
+
+def diferenca_numeros(numeros):
+    if not numeros:
+        return 0
+    return numeros[0] - sum(numeros[1:])
+
+def numero_maximo(numeros):
+    if not numeros:
+        return None
+    return max(numeros)
+
+def numero_minimo(numeros):
+    if not numeros:
+        return None
+    return min(numeros)
